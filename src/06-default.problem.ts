@@ -5,9 +5,12 @@ import { z } from "zod";
 
 const Form = z.object({
   repoName: z.string(),
-  keywords: z.array(z.string()).optional(),
+  keywords: z.array(z.string()).default([]),
   //                           ^ 🕵️‍♂️
 });
+
+type FormInput = z.input<typeof Form> // because default is declared, keywords are optional on input
+type FormOutput = z.output<typeof Form> // because default is declared, keywords is not optional on output type definition
 
 export const validateFormInput = (values: unknown) => {
   const parsedData = Form.parse(values);
